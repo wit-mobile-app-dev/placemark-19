@@ -12,6 +12,7 @@ import org.wit.placemark.models.PlacemarkModel
 class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   var placemark = PlacemarkModel()
+  val placemarks = ArrayList<PlacemarkModel>()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -19,9 +20,12 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     info("Placemark Activity started..")
 
     btnAdd.setOnClickListener() {
-      placemark.title = placemarkTitle.toString()
+      placemark.title = placemarkTitle.text.toString()
+      placemark.description = description.text.toString()
       if (placemark.title.isNotEmpty()) {
+        placemarks.add(placemark.copy())
         info("add Button Pressed: $placemarkTitle")
+        placemarks.forEach { info("add Button Pressed: ${it}")}
       }
       else {
         toast ("Please Enter a title")
@@ -29,4 +33,3 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     }
   }
 }
-
