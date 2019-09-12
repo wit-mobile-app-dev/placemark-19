@@ -9,4 +9,5 @@
   <string name="save_placemark"> Save Placemark </string>
   <string name="button_addImage"> Add Image </string>
   <string name="select_placemark_image">Select placemark image</string>
+  <string name="change_placemark_image">Change placemark image</string>
 </resources>
