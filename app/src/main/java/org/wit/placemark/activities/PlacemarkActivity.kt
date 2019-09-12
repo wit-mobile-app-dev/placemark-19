@@ -25,24 +25,31 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     info("Placemark Activity started..")
 
     app = application as MainApp
+    var edit = false
 
     if (intent.hasExtra("placemark_edit")) {
+      edit = true
       placemark = intent.extras?.getParcelable<PlacemarkModel>("placemark_edit")!!
       placemarkTitle.setText(placemark.title)
       description.setText(placemark.description)
+      btnAdd.setText(R.string.save_placemark)
     }
 
     btnAdd.setOnClickListener() {
       placemark.title = placemarkTitle.text.toString()
       placemark.description = description.text.toString()
-      if (placemark.title.isNotEmpty()) {
-        app.placemarks.create(placemark.copy())
-        info("add Button Pressed: $placemarkTitle")
-        setResult(AppCompatActivity.RESULT_OK)
-        finish()
+      if (placemark.title.isEmpty()) {
+        toast(R.string.enter_placemark_title)
       } else {
-        toast("Please Enter a title")
+        if (edit) {
+          app.placemarks.update(placemark.copy())
+        } else {
+          app.placemarks.create(placemark.copy())
+        }
       }
+      info("add Button Pressed: $placemarkTitle")
+      setResult(AppCompatActivity.RESULT_OK)
+      finish()
     }
   }
 
@@ -60,4 +67,3 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     return super.onOptionsItemSelected(item)
   }
 }
-
