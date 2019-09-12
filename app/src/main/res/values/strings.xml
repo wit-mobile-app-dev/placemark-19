@@ -5,4 +5,6 @@
   <string name="button_addPlacemark">Add Placemark</string>
   <string name="menu_addPlacemark">Add</string>
   <string name="menu_cancelPlacemark">Cancel</string>
+  <string name="enter_placemark_title"> Please enter a Placemark Title </string>
+  <string name="save_placemark"> Save Placemark </string>
 </resources>
