@@ -24,6 +24,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
   lateinit var app: MainApp
   val IMAGE_REQUEST = 1
   val LOCATION_REQUEST = 2
+  var edit = false;
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -33,7 +34,6 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
     info("Placemark Activity started..")
 
     app = application as MainApp
-    var edit = false
 
     if (intent.hasExtra("placemark_edit")) {
       edit = true
@@ -56,6 +56,7 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
         if (edit) {
           app.placemarks.update(placemark.copy())
         } else {
+
           app.placemarks.create(placemark.copy())
         }
       }
@@ -81,11 +82,16 @@ class PlacemarkActivity : AppCompatActivity(), AnkoLogger {
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
     menuInflater.inflate(R.menu.menu_placemark, menu)
+    if (edit && menu != null) menu.getItem(0).setVisible(true)
     return super.onCreateOptionsMenu(menu)
   }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     when (item?.itemId) {
+      R.id.item_delete -> {
+        app.placemarks.delete(placemark)
+        finish()
+      }
       R.id.item_cancel -> {
         finish()
       }
