@@ -52,6 +52,11 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
     serialize()
   }
 
+  override fun delete(placemark: PlacemarkModel) {
+    placemarks.remove(placemark)
+    serialize()
+  }
+
   private fun serialize() {
     val jsonString = gsonBuilder.toJson(placemarks, listType)
     write(context, JSON_FILE, jsonString)
