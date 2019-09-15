@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.placemark.R
 import kotlinx.android.synthetic.main.activity_placemark_maps.*
 import kotlinx.android.synthetic.main.content_placemark_maps.*
+import org.wit.placemark.helpers.readImageFromPath
 import org.wit.placemark.main.MainApp
 
 class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
@@ -41,8 +42,12 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
   }
 
   override fun onMarkerClick(marker: Marker): Boolean {
-    currentTitle.text = marker.title
-    return false
+    val tag = marker.tag as Long
+    val placemark = app.placemarks.findById(tag)
+    currentTitle.text = placemark!!.title
+    currentDescription.text = placemark!!.description
+    currentImage.setImageBitmap(readImageFromPath(this, placemark.image))
+    return true
   }
 
   override fun onDestroy() {
