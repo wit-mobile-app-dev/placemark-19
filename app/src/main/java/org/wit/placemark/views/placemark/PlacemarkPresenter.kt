@@ -1,25 +1,18 @@
 package org.wit.placemark.views.placemark
 
 import android.content.Intent
-import org.jetbrains.anko.intentFor
 import org.wit.placemark.helpers.showImagePicker
-import org.wit.placemark.main.MainApp
 import org.wit.placemark.models.Location
 import org.wit.placemark.models.PlacemarkModel
-import org.wit.placemark.views.editlocation.EditLocationView
+import org.wit.placemark.views.*
 
-class PlacemarkPresenter(val view: PlacemarkView) {
-
-  val IMAGE_REQUEST = 1
-  val LOCATION_REQUEST = 2
+class PlacemarkPresenter(view: BaseView) : BasePresenter(view) {
 
   var placemark = PlacemarkModel()
-  var location = Location(52.245696, -7.139102, 15f)
-  var app: MainApp
+  var defaultLocation = Location(52.245696, -7.139102, 15f)
   var edit = false;
 
   init {
-    app = view.application as MainApp
     if (view.intent.hasExtra("placemark_edit")) {
       edit = true
       placemark = view.intent.extras?.getParcelable<PlacemarkModel>("placemark_edit")!!
@@ -35,39 +28,45 @@ class PlacemarkPresenter(val view: PlacemarkView) {
     } else {
       app.placemarks.create(placemark)
     }
-    view.finish()
+    view?.finish()
   }
 
   fun doCancel() {
-    view.finish()
+    view?.finish()
   }
 
   fun doDelete() {
     app.placemarks.delete(placemark)
-    view.finish()
+    view?.finish()
   }
 
   fun doSelectImage() {
-    showImagePicker(view, IMAGE_REQUEST)
+    view?.let {
+      showImagePicker(view!!, IMAGE_REQUEST)
+    }
   }
 
   fun doSetLocation() {
-    if (placemark.zoom != 0f) {
-      location.lat = placemark.lat
-      location.lng = placemark.lng
-      location.zoom = placemark.zoom
+    if (edit == false) {
+      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
+    } else {
+      view?.navigateTo(
+        VIEW.LOCATION,
+        LOCATION_REQUEST,
+        "location",
+        Location(placemark.lat, placemark.lng, placemark.zoom)
+      )
     }
-    view.startActivityForResult(view.intentFor<EditLocationView>().putExtra("location", location), LOCATION_REQUEST)
   }
 
-  fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+  override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
     when (requestCode) {
       IMAGE_REQUEST -> {
         placemark.image = data.data.toString()
-        view.showPlacemark(placemark)
+        view?.showPlacemark(placemark)
       }
       LOCATION_REQUEST -> {
-        location = data.extras?.getParcelable<Location>("location")!!
+        val location = data.extras?.getParcelable<Location>("location")!!
         placemark.lat = location.lat
         placemark.lng = location.lng
         placemark.zoom = location.zoom
