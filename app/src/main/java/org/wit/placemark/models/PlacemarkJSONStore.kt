@@ -57,6 +57,11 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
     serialize()
   }
 
+  override fun findById(id:Long) : PlacemarkModel? {
+    val foundPlacemark: PlacemarkModel? = placemarks.find { it.id == id }
+    return foundPlacemark
+  }
+
   private fun serialize() {
     val jsonString = gsonBuilder.toJson(placemarks, listType)
     write(context, JSON_FILE, jsonString)
