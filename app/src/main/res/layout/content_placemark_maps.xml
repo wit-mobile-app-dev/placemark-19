@@ -5,8 +5,8 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   app:layout_behavior="@string/appbar_scrolling_view_behavior"
-  tools:context=".activities.PlacemarkMapsActivity"
-  tools:showIn="@layout/activity_placemark_maps">
+  tools:context=".views.map.PlacemarkMapView"
+  tools:showIn="@layout/activity_placemark_map">
 
   <com.google.android.gms.maps.MapView
       android:id="@+id/mapView"
