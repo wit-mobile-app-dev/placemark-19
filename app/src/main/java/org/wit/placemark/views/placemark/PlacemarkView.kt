@@ -20,8 +20,7 @@ class PlacemarkView : BaseView(), AnkoLogger {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_placemark)
-
-    init(toolbarAdd)
+    super.init(toolbarAdd)
 
     presenter = initPresenter (PlacemarkPresenter(this)) as PlacemarkPresenter
 
