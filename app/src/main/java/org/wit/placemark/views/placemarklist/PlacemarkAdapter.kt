@@ -1,4 +1,4 @@
-package org.wit.placemark.activities
+package org.wit.placemark.views.placemarklist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +14,17 @@ interface PlacemarkListener {
 }
 
 class PlacemarkAdapter constructor(private var placemarks: List<PlacemarkModel>,
-                                   private val listener: PlacemarkListener) : RecyclerView.Adapter<PlacemarkAdapter.MainHolder>() {
+                                   private val listener: PlacemarkListener
+) : RecyclerView.Adapter<PlacemarkAdapter.MainHolder>() {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-    return MainHolder(LayoutInflater.from(parent?.context).inflate(R.layout.card_placemark, parent, false))
+    return MainHolder(
+        LayoutInflater.from(parent?.context).inflate(
+            R.layout.card_placemark,
+            parent,
+            false
+        )
+    )
   }
 
   override fun onBindViewHolder(holder: MainHolder, position: Int) {

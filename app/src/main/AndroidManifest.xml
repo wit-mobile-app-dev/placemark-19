@@ -20,8 +20,8 @@
       android:name="com.google.android.geo.API_KEY"
       android:value="@string/google_maps_key" />
 
-    <activity android:name=".activities.PlacemarkActivity" />
-    <activity android:name=".activities.PlacemarkListActivity">
+    <activity android:name=".views.placemark.PlacemarkActivity" />
+    <activity android:name=".views.placemarklist.PlacemarkListActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".activities.MapActivity"
+      android:name=".views.editlocation.MapActivity"
       android:label="@string/title_activity_map" />
   </application>
 
