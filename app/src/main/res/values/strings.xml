@@ -17,4 +17,5 @@
   <string name="placemark_image_placeholder">Placemark Imagee</string>
   <string name="placemark_title_placeholder">Placemark Title</string>
   <string name="placemark_description_placeholder">Placemark Description</string>
+  <string name="menu_savePlacemark">Save</string>
 </resources>
