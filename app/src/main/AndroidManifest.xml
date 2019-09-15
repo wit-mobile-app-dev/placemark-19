@@ -14,8 +14,7 @@
       android:theme="@style/AppTheme">
     <activity
       android:name=".activities.PlacemarkMapsActivity"
-      android:label="@string/title_activity_placemark_maps"
-      android:theme="@style/AppTheme.NoActionBar"></activity>
+      android:label="@string/title_activity_placemark_maps"></activity>
 
     <meta-data
       android:name="com.google.android.geo.API_KEY"
