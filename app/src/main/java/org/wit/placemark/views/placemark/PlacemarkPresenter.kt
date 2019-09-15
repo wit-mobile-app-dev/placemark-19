@@ -1,10 +1,15 @@
 package org.wit.placemark.views.placemark
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.wit.placemark.helpers.checkLocationPermissions
+import org.wit.placemark.helpers.isPermissionGranted
 import org.wit.placemark.helpers.showImagePicker
 import org.wit.placemark.models.Location
 import org.wit.placemark.models.PlacemarkModel
@@ -16,15 +21,32 @@ class PlacemarkPresenter(view: BaseView) : BasePresenter(view) {
   var placemark = PlacemarkModel()
   var defaultLocation = Location(52.245696, -7.139102, 15f)
   var edit = false;
+  var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
 
   init {
     if (view.intent.hasExtra("placemark_edit")) {
       edit = true
-      placemark = view.intent?.extras?.getParcelable<PlacemarkModel>("placemark_edit")!!
+      placemark = view.intent.extras?.getParcelable<PlacemarkModel>("placemark_edit")!!
       view.showPlacemark(placemark)
     } else {
-      placemark.lat = defaultLocation.lat
-      placemark.lng = defaultLocation.lng
+      if (checkLocationPermissions(view)) {
+        doSetCurrentLocation()
+      }
+    }
+  }
+
+  @SuppressLint("MissingPermission")
+  fun doSetCurrentLocation() {
+    locationService.lastLocation.addOnSuccessListener {
+      locationUpdate(it.latitude, it.longitude)
+    }
+  }
+
+  override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    if (isPermissionGranted(requestCode, grantResults)) {
+      doSetCurrentLocation()
+    } else {
+      locationUpdate(defaultLocation.lat, defaultLocation.lng)
     }
   }
 
@@ -67,17 +89,13 @@ class PlacemarkPresenter(view: BaseView) : BasePresenter(view) {
   }
 
   fun doSelectImage() {
-    view?.let{
+    view?.let {
       showImagePicker(view!!, IMAGE_REQUEST)
     }
   }
 
   fun doSetLocation() {
-    if (edit == false) {
-      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
-    } else {
-      view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
-    }
+    view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(placemark.lat, placemark.lng, placemark.zoom))
   }
 
   override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
