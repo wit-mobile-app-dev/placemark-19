@@ -1,32 +1,25 @@
 package org.wit.placemark.views.placemarklist
 
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
-import org.wit.placemark.views.map.PlacemarkMapView
-import org.wit.placemark.views.placemark.PlacemarkView
-import org.wit.placemark.main.MainApp
 import org.wit.placemark.models.PlacemarkModel
+import org.wit.placemark.views.BasePresenter
+import org.wit.placemark.views.BaseView
+import org.wit.placemark.views.VIEW
 
-class PlacemarkListPresenter(val view: PlacemarkListView) {
-
-  var app: MainApp
-
-  init {
-    app = view.application as MainApp
-  }
-
-  fun getPlacemarks() = app.placemarks.findAll()
+class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
 
   fun doAddPlacemark() {
-    view.startActivityForResult<PlacemarkView>(0)
+    view?.navigateTo(VIEW.PLACEMARK)
   }
 
   fun doEditPlacemark(placemark: PlacemarkModel) {
-    view.startActivityForResult(view.intentFor<PlacemarkView>().putExtra("placemark_edit", placemark), 0)
+    view?.navigateTo(VIEW.PLACEMARK, 0, "placemark_edit", placemark)
   }
 
   fun doShowPlacemarksMap() {
-    view.startActivity<PlacemarkMapView>()
+    view?.navigateTo(VIEW.MAPS)
+  }
+
+  fun loadPlacemarks() {
+    view?.showPlacemarks(app.placemarks.findAll())
   }
 }
