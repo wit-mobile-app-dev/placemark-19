@@ -1,10 +1,13 @@
 package org.wit.placemark.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PlacemarkModel(var id: Long = 0,
+@Entity
+data class PlacemarkModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
                           var title: String = "",
                           var description: String = "",
                           var image: String = "",
