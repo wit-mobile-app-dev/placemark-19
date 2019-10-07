@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
 import org.wit.placemark.models.Location
 
@@ -49,6 +50,10 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
   fun init(toolbar: Toolbar, upEnabled: Boolean) {
     toolbar.title = title
     setSupportActionBar(toolbar)
+    val user = FirebaseAuth.getInstance().currentUser
+    if (user != null) {
+      toolbar.title = "${title}: ${user.email}"
+    }
     supportActionBar?.setDisplayHomeAsUpEnabled(upEnabled)
   }
 
