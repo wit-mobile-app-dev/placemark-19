@@ -16,10 +16,10 @@ class PlacemarkMapPresenter(view: BaseView) : BasePresenter(view) {
   fun doPopulateMap(map: GoogleMap, placemarks: List<PlacemarkModel>) {
     map.uiSettings.setZoomControlsEnabled(true)
     placemarks.forEach {
-      val loc = LatLng(it.lat, it.lng)
+      val loc = LatLng(it.location.lat, it.location.lng)
       val options = MarkerOptions().title(it.title).position(loc)
       map.addMarker(options).tag = it.id
-      map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
+      map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.location.zoom))
     }
   }
 
