@@ -1,5 +1,7 @@
 package org.wit.placemark.views.placemarklist
 
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.wit.placemark.models.PlacemarkModel
 import org.wit.placemark.views.BasePresenter
 import org.wit.placemark.views.BaseView
@@ -20,6 +22,11 @@ class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
   }
 
   fun loadPlacemarks() {
-    view?.showPlacemarks(app.placemarks.findAll())
+    doAsync {
+      val placemarks = app.placemarks.findAll()
+      uiThread {
+        view?.showPlacemarks(placemarks)
+      }
+    }
   }
 }
