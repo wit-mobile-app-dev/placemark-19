@@ -81,10 +81,11 @@ class PlacemarkPresenter(view: BaseView) : BasePresenter(view) {
     placemark.zoom = 15f
     map?.clear()
     map?.uiSettings?.setZoomControlsEnabled(true)
-    val options = MarkerOptions().title(placemark.title).position(LatLng(placemark.lat, placemark.lng))
+    val options =
+      MarkerOptions().title(placemark.title).position(LatLng(placemark.lat, placemark.lng))
     map?.addMarker(options)
     map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(placemark.lat, placemark.lng), placemark.zoom))
-    view?.showPlacemark(placemark)
+    view?.showLocation(placemark.lat, placemark.lng)
   }
 
 

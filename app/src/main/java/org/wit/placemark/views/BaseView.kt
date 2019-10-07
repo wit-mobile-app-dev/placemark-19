@@ -68,6 +68,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
 
   open fun showPlacemark(placemark: PlacemarkModel) {}
   open fun showPlacemarks(placemarks: List<PlacemarkModel>) {}
+  open fun showLocation(latitude : Double, longitude : Double) {}
   open fun showProgress() {}
   open fun hideProgress() {}
 }
