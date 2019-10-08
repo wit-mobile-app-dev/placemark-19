@@ -18,7 +18,7 @@ class PlacemarkMapPresenter(view: BaseView) : BasePresenter(view) {
     placemarks.forEach {
       val loc = LatLng(it.location.lat, it.location.lng)
       val options = MarkerOptions().title(it.title).position(loc)
-      map.addMarker(options).tag = it.id
+      map.addMarker(options).tag = it
       map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.location.zoom))
     }
   }
@@ -26,7 +26,7 @@ class PlacemarkMapPresenter(view: BaseView) : BasePresenter(view) {
   fun doMarkerSelected(marker: Marker) {
     val tag = marker.tag as Long
     doAsync {
-      val placemark = app.placemarks.findById(tag)
+      val placemark = marker.tag as PlacemarkModel
       uiThread {
         if (placemark != null) view?.showPlacemark(placemark)
       }
