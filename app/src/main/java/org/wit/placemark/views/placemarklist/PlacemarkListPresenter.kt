@@ -32,6 +32,7 @@ class PlacemarkListPresenter(view: BaseView) : BasePresenter(view) {
   }
 
   fun doLogout() {
+    app.placemarks.clear()
     FirebaseAuth.getInstance().signOut()
     view?.navigateTo(VIEW.LOGIN)
   }
