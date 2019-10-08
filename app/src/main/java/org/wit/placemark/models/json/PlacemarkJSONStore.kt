@@ -73,4 +73,8 @@ class PlacemarkJSONStore : PlacemarkStore, AnkoLogger {
     val jsonString = read(context, JSON_FILE)
     placemarks = Gson().fromJson(jsonString, listType)
   }
+
+  override fun clear() {
+    placemarks.clear()
+  }
 }
